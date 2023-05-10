@@ -25,6 +25,18 @@ const App = () => {
       <Button handleClick={() => setNeutralValue(neutral + 1)} text="Neutral" />
       <Button handleClick={() => setBadValue(bad + 1)} text="Bad" />
 
+      <Statistics good={good} neutral={neutral} bad={bad} />
+    </div>
+  );
+};
+
+const Button = (props) => (
+  <button onClick={props.handleClick}>{props.text}</button>
+);
+
+const Statistics = ({ good, neutral, bad }) => {
+  return (
+    <div>
       <h1>statistics</h1>
       <p>good {good}</p>
       <p>neutral {neutral}</p>
@@ -35,9 +47,5 @@ const App = () => {
     </div>
   );
 };
-
-const Button = (props) => (
-  <button onClick={props.handleClick}>{props.text}</button>
-);
 
 export default App;
