@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const App = () => {
   const anecdotes = [
@@ -12,8 +12,28 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(generateRandomNumber());
   const [votes, setVotes] = useState(Array(8).fill(0));
+  const [mostVotes, setMostVotes] = useState(0);
+
+  // always returns the index of the first occurrence of the maximum votes.
+  const findIndexOfMaxVotes = useCallback(() => {
+    let maxVotes = 0;
+    let maxIndex = 0;
+
+    votes.forEach((vote, index) => {
+      if (vote > maxVotes) {
+        maxVotes = vote;
+        maxIndex = index;
+      }
+    });
+
+    return maxIndex;
+  }, [votes]);
+
+  useEffect(() => {
+    setMostVotes(findIndexOfMaxVotes());
+  }, [votes, findIndexOfMaxVotes]);
 
   const selectNextAnecdote = () => {
     let randomNumber;
@@ -37,11 +57,22 @@ const App = () => {
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
       <button onClick={voteNote}>vote</button>
       <button onClick={selectNextAnecdote}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <Anecdote anecdote={anecdotes[mostVotes]} votes={votes[mostVotes]} />
     </div>
+  );
+};
+
+const Anecdote = ({ anecdote, votes }) => {
+  return (
+    <>
+      <p>{anecdote}</p>
+      <p>has {votes} votes</p>
+    </>
   );
 };
 
