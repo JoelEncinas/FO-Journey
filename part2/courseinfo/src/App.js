@@ -1,4 +1,4 @@
-const Header = ({ course }) => <h1>{course}</h1>;
+const Header = ({ name }) => <h1>{name}</h1>;
 
 const Total = ({ sum }) => <p>Number of exercises {sum}</p>;
 
@@ -10,11 +10,20 @@ const Part = ({ part }) => (
 
 const Content = ({ parts }) => (
   <>
-    <Part part={parts[0]} />
-    <Part part={parts[1]} />
-    <Part part={parts[2]} />
+    {parts.map((part) => {
+      return <Part key={part.id} part={part} />;
+    })}
   </>
 );
+
+const Course = ({ course }) => {
+  return (
+    <>
+      <Header name={course.name} />
+      <Content parts={course.parts} />
+    </>
+  );
+};
 
 const App = () => {
   const course = {
