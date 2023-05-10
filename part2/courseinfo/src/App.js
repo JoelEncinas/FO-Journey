@@ -8,13 +8,18 @@ const Part = ({ part }) => (
   </p>
 );
 
-const Content = ({ parts }) => (
-  <>
-    {parts.map((part) => {
-      return <Part key={part.id} part={part} />;
-    })}
-  </>
-);
+const Content = ({ parts }) => {
+  const total = parts.reduce((s, p) => s + p.exercises, 0);
+
+  return (
+    <>
+      {parts.map((part) => {
+        return <Part key={part.id} part={part} />;
+      })}
+      <Total sum={total} />
+    </>
+  );
+};
 
 const Course = ({ course }) => {
   return (
