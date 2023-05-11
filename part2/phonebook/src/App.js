@@ -58,42 +58,72 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <div>
-        filter shown with{" "}
-        <input
-          value={filter}
-          onChange={handleFilterChange}
-          placeholder="Enter name"
-        />
-      </div>
-      <h2>Add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          <div>
-            name:{" "}
-            <input
-              value={newName}
-              onChange={handleNewNameChange}
-              placeholder="Enter name"
-            />
-          </div>
-          <div>
-            number:{" "}
-            <input
-              value={newNumber}
-              onChange={handleNewNumberChange}
-              placeholder="Enter number"
-            />
-          </div>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <Header title="Phonebook" />
+      <Filter filter={filter} handleFilterChange={handleFilterChange} />
+
+      <Header title="Add a new" />
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        handleNewNameChange={handleNewNameChange}
+        newNumber={newNumber}
+        handleNewNumberChange={handleNewNumberChange}
+      />
+
+      <Header title="Numbers" />
       <Persons persons={personsToShow} />
     </div>
+  );
+};
+
+const Header = ({ title }) => {
+  return <h2>{title}</h2>;
+};
+
+const Filter = ({ filter, handleFilterChange }) => {
+  return (
+    <div>
+      filter shown with{" "}
+      <input
+        value={filter}
+        onChange={handleFilterChange}
+        placeholder="Enter name"
+      />
+    </div>
+  );
+};
+
+const PersonForm = ({
+  addPerson,
+  newName,
+  handleNewNameChange,
+  newNumber,
+  handleNewNumberChange,
+}) => {
+  return (
+    <form onSubmit={addPerson}>
+      <div>
+        <div>
+          name:{" "}
+          <input
+            value={newName}
+            onChange={handleNewNameChange}
+            placeholder="Enter name"
+          />
+        </div>
+        <div>
+          number:{" "}
+          <input
+            value={newNumber}
+            onChange={handleNewNumberChange}
+            placeholder="Enter number"
+          />
+        </div>
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
   );
 };
 
