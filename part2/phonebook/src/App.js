@@ -76,7 +76,15 @@ const App = () => {
 
   const deletePerson = async (id, name) => {
     if (window.confirm(`Delete ${name} ?`)) {
-      await personService.deletePerson(id);
+      await personService.deletePerson(id).catch((e) => {
+        setMessage({
+          message: `Information of ${name} has already been removed from server`,
+          error: true,
+        });
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      });
 
       personService.getAll().then((numbers) => {
         setPersons(numbers);
