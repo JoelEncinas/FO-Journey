@@ -46,6 +46,14 @@ function App() {
     }
   };
 
+  const showCountry = (name) => {
+    const country = countries.filter((country) =>
+      country.name.common.includes(name)
+    );
+
+    setCountry(country[0]);
+  };
+
   const handleKeyDown = (e) => {
     if (e.ctrlKey && e.key === "Backspace") {
       setFilter("");
@@ -60,7 +68,9 @@ function App() {
       <h1>Countries Finder</h1>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       {tooManyCountries && <TooMany />}
-      {countriesToShow && <Countries countries={countriesToShow} />}
+      {countriesToShow && (
+        <Countries countries={countriesToShow} showCountry={showCountry} />
+      )}
       {country && <Country country={country} />}
     </div>
   );
