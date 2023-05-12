@@ -7,10 +7,14 @@ const getCountries = () => {
 };
 
 const getWeather = (city) => {
-  const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${process.env.REACT_APP_TOKEN}`;
+  const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${process.env.REACT_APP_API_KEY}`;
 
   const request = axios.get(`${weatherUrl}`);
-  return request.then((response) => response.data);
+  return request
+    .then((response) => response.data)
+    .catch(() => {
+      return "error";
+    });
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
