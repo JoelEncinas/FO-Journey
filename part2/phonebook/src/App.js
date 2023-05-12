@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import Header from "./components/Header";
+import Persons from "./components/Persons";
+import PersonForm from "./components/PersonForm";
+import Filter from "./components/Filter";
 import personService from "./services/persons";
 
 const App = () => {
@@ -78,69 +82,6 @@ const App = () => {
       <Header title="Numbers" />
       <Persons persons={personsToShow} />
     </div>
-  );
-};
-
-const Header = ({ title }) => {
-  return <h2>{title}</h2>;
-};
-
-const Filter = ({ filter, handleFilterChange }) => {
-  return (
-    <div>
-      filter shown with{" "}
-      <input
-        value={filter}
-        onChange={handleFilterChange}
-        placeholder="Enter name"
-      />
-    </div>
-  );
-};
-
-const PersonForm = ({
-  addPerson,
-  newName,
-  handleNewNameChange,
-  newNumber,
-  handleNewNumberChange,
-}) => {
-  return (
-    <form onSubmit={addPerson}>
-      <div>
-        <div>
-          name:{" "}
-          <input
-            value={newName}
-            onChange={handleNewNameChange}
-            placeholder="Enter name"
-          />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            value={newNumber}
-            onChange={handleNewNumberChange}
-            placeholder="Enter number"
-          />
-        </div>
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
-    </form>
-  );
-};
-
-const Persons = ({ persons }) => {
-  return (
-    <>
-      {persons.map((person) => (
-        <p key={person.id}>
-          {person.name} {person.number}
-        </p>
-      ))}
-    </>
   );
 };
 
