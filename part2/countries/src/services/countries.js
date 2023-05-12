@@ -6,7 +6,15 @@ const getCountries = () => {
   return request.then((response) => response.data);
 };
 
+const getWeather = (city) => {
+  const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${process.env.REACT_APP_TOKEN}`;
+
+  const request = axios.get(`${weatherUrl}`);
+  return request.then((response) => response.data);
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getCountries,
+  getWeather,
 };

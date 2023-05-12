@@ -5,6 +5,7 @@ import Filter from "./components/Filter";
 import TooMany from "./components/TooMany";
 import Countries from "./components/Countries";
 import Country from "./components/Country";
+import Footer from "./components/Footer";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -12,6 +13,7 @@ function App() {
   const [countriesToShow, setcountriesToShow] = useState(null);
   const [tooManyCountries, setTooManyCountries] = useState(null);
   const [country, setCountry] = useState(null);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     countryService.getCountries().then((countries) => {
@@ -33,14 +35,17 @@ function App() {
       if (filteredCountries.length > 10) {
         setTooManyCountries(true);
         setCountry(null);
+        setWeather(null);
         setcountriesToShow(null);
       } else if (filteredCountries.length === 1) {
         setTooManyCountries(null);
         setCountry(filteredCountries[0]);
+        console.log(countryService.getWeather(filteredCountries[0].capital));
         setcountriesToShow(null);
       } else {
         setTooManyCountries(null);
         setCountry(null);
+        setWeather(null);
         setcountriesToShow(filteredCountries);
       }
     }
@@ -72,6 +77,8 @@ function App() {
         <Countries countries={countriesToShow} showCountry={showCountry} />
       )}
       {country && <Country country={country} />}
+
+      <Footer />
     </div>
   );
 }
