@@ -40,8 +40,8 @@ function App() {
       } else if (filteredCountries.length === 1) {
         setTooManyCountries(null);
         setCountry(filteredCountries[0]);
-        countryService.getWeather(filteredCountries[0].capital).then((data)=>{
-          setWeather(data)
+        countryService.getWeather(filteredCountries[0].capital).then((data) => {
+          setWeather(data);
         });
         setcountriesToShow(null);
       } else {
@@ -59,6 +59,9 @@ function App() {
     );
 
     setCountry(country[0]);
+    countryService.getWeather(country[0].capital).then((data) => {
+      setWeather(data);
+    });
   };
 
   const handleKeyDown = (e) => {
