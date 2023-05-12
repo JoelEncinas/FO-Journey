@@ -14,9 +14,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
 
   useEffect(() => {
-    personService.getAll().then((initialNumbers) => {
-      setPersons(initialNumbers);
-      setPersonsToShow(initialNumbers);
+    personService.getAll().then((numbers) => {
+      setPersons(numbers);
+      setPersonsToShow(numbers);
     });
   }, []);
 
@@ -39,6 +39,17 @@ const App = () => {
         setNewName("");
         setNewNumber("");
         setFilter("");
+      });
+    }
+  };
+
+  const deletePerson = async (id, name) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      await personService.deletePerson(id);
+
+      personService.getAll().then((numbers) => {
+        setPersons(numbers);
+        setPersonsToShow(numbers);
       });
     }
   };
@@ -80,7 +91,7 @@ const App = () => {
       />
 
       <Header title="Numbers" />
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} deletePerson={deletePerson} />
     </div>
   );
 };
