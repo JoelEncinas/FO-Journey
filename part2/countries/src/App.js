@@ -3,6 +3,7 @@ import countryService from "./services/countries";
 
 import Filter from "./components/Filter";
 import TooMany from "./components/TooMany";
+import CountriesToShow from "./components/CountriesToShow";
 
 function App() {
   const [filter, setFilter] = useState("");
@@ -18,7 +19,7 @@ function App() {
   }, []);
 
   const handleFilterChange = (e) => {
-    const filterValue = e.target.value;
+    const filterValue = e.target.value.toLowerCase();
     setFilter(filterValue);
 
     if (filterValue === "") {
@@ -40,12 +41,10 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Countries Finder</h1>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       {tooManyCountries && <TooMany />}
-      {countriesToShow &&
-        countriesToShow.map((country) => (
-          <p key={country.name.common}>{country.name.common}</p>
-        ))}
+      {countriesToShow && <CountriesToShow countries={countriesToShow} />}
     </div>
   );
 }
