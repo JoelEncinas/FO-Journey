@@ -6,8 +6,13 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-const create = (newObject) => {
+const createPerson = (newObject) => {
   const request = axios.post(baseUrl, newObject);
+  return request.then((response) => response.data);
+};
+
+const updatePerson = (id, newObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject);
   return request.then((response) => response.data);
 };
 
@@ -19,6 +24,7 @@ const deletePerson = (id) => {
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
-  create,
+  createPerson,
+  updatePerson,
   deletePerson,
 };

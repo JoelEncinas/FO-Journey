@@ -20,20 +20,33 @@ const App = () => {
     });
   }, []);
 
-  const addPerson = (e) => {
+  const addPerson = async (e) => {
     e.preventDefault();
 
-    const flag = persons.filter((person) => person.name === newName);
+    const person = persons.find((person) => person.name === newName);
 
-    if (flag.length !== 0) {
-      alert(`${newName} is already added to phonebook`);
+    if (person) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const changedPerson = { ...person, number: newNumber };
+
+        await personService.updatePerson(person.id, changedPerson);
+
+        personService.getAll().then((numbers) => {
+          setPersons(numbers);
+          setPersonsToShow(numbers);
+        });
+      }
     } else {
       const personObject = {
         name: newName,
         number: newNumber,
       };
 
-      personService.create(personObject).then((returnedPerson) => {
+      personService.createPerson(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
         setPersonsToShow(persons.concat(returnedPerson));
         setNewName("");
