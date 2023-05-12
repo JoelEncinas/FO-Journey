@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -9,14 +9,12 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
-  const hook = () => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
-      setPersonsToShow(response.data);
+  useEffect(() => {
+    personService.getAll().then((initialNumbers) => {
+      setPersons(initialNumbers);
+      setPersonsToShow(initialNumbers);
     });
-  };
-
-  useEffect(hook, []);
+  }, []);
 
   const addPerson = (e) => {
     e.preventDefault();
@@ -26,16 +24,18 @@ const App = () => {
     if (flag.length !== 0) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      const person = {
+      const personObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       };
-      setPersons(persons.concat(person));
-      setPersonsToShow(persons.concat(person));
-      setNewName("");
-      setNewNumber("");
-      setFilter("");
+
+      personService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setPersonsToShow(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+        setFilter("");
+      });
     }
   };
 
