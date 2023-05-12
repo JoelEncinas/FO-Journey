@@ -40,7 +40,9 @@ function App() {
       } else if (filteredCountries.length === 1) {
         setTooManyCountries(null);
         setCountry(filteredCountries[0]);
-        console.log(countryService.getWeather(filteredCountries[0].capital));
+        countryService.getWeather(filteredCountries[0].capital).then((data)=>{
+          setWeather(data)
+        });
         setcountriesToShow(null);
       } else {
         setTooManyCountries(null);
@@ -76,7 +78,7 @@ function App() {
       {countriesToShow && (
         <Countries countries={countriesToShow} showCountry={showCountry} />
       )}
-      {country && <Country country={country} />}
+      {country && weather && <Country country={country} weather={weather} />}
 
       <Footer />
     </div>

@@ -6,11 +6,11 @@ const getCountries = () => {
   return request.then((response) => response.data);
 };
 
-const getWeather = (city) => {
+const getWeather = async (city) => {
   const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${process.env.REACT_APP_API_KEY}`;
 
   const request = axios.get(`${weatherUrl}`);
-  return request
+  return await request
     .then((response) => response.data)
     .catch(() => {
       return "error";
