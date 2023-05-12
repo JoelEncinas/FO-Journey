@@ -34,6 +34,11 @@
       "content": "a new note...",
       "important": false,
       "id": 7
+    },
+    {
+      "content": "new note",
+      "important": false,
+      "id": 8
     }
   ]
 }
