@@ -28,6 +28,27 @@ app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
 
+app.get("/info", (req, res) => {
+  const options = {
+    weekday: "short",
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+  };
+
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleString("en-US", options);
+
+  res.send(`
+    <p>Phonebook has info for ${persons.length} people</p>
+    <p>${formattedDate}</p>
+    `);
+});
+
 const PORT = 3001;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
