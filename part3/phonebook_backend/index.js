@@ -39,7 +39,7 @@ app.get("/api/persons/:id", (req, res) => {
   }
 });
 
-app.get("/info", (req, res) => {
+const getDate = () => {
   const options = {
     weekday: "short",
     month: "short",
@@ -52,11 +52,13 @@ app.get("/info", (req, res) => {
   };
 
   const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleString("en-US", options);
+  return currentDate.toLocaleString("en-US", options);
+};
 
+app.get("/info", (req, res) => {
   res.send(`
     <p>Phonebook has info for ${persons.length} people</p>
-    <p>${formattedDate}</p>
+    <p>${getDate()}</p>
     `);
 });
 
