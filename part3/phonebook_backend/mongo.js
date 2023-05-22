@@ -25,13 +25,13 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model("Person", personSchema);
 
 function getAll() {
-  let log;
+  let log = "";
   Person.find({}).then((result) => {
     result.forEach((person) => {
       log += `${person.name} ${person.number}\n`;
     });
-    mongoose.connection.close();
 
+    mongoose.connection.close();
     console.log(`phonebook:\n${log}`);
   });
 }
