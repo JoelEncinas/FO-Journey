@@ -7,7 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 morgan.token("body", (req) => JSON.stringify(req.body));
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"));
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body")
+);
 
 let persons = [
   {
@@ -33,7 +35,7 @@ let persons = [
 ];
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  res.status(200).json(persons);
 });
 
 app.get("/api/persons/:id", (req, res) => {
@@ -41,7 +43,7 @@ app.get("/api/persons/:id", (req, res) => {
   const person = persons.find((person) => person.id === id);
 
   if (person) {
-    res.json(person);
+    res.status(200).json(person);
   } else {
     res.status(404).end();
   }
@@ -64,7 +66,7 @@ const getDate = () => {
 };
 
 app.get("/info", (req, res) => {
-  res.send(`
+  res.status(200).send(`
     <p>Phonebook has info for ${persons.length} people</p>
     <p>${getDate()}</p>
     `);
@@ -101,9 +103,9 @@ app.post("/api/persons", (req, res) => {
 
   persons = persons.concat(person);
 
-  res.json(person);
+  res.status(200).json(person);
 });
 
-const PORT = 3001;
+const PORT = 3001 || process.env.PORT;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
