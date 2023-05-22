@@ -56,21 +56,29 @@ const App = () => {
         number: newNumber,
       };
 
-      personService.createPerson(personObject).then((returnedPerson) => {
-        setMessage({
-          message: `Added ${personObject.name}`,
-          error: false,
-        });
-        setTimeout(() => {
-          setMessage(null);
-        }, 3000);
+      personService
+        .createPerson(personObject)
+        .then((returnedPerson) => {
+          setMessage({
+            message: `Added ${personObject.name}`,
+            error: false,
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
 
-        setPersons(persons.concat(returnedPerson));
-        setPersonsToShow(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-        setFilter("");
-      });
+          setPersons(persons.concat(returnedPerson));
+          setPersonsToShow(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+          setFilter("");
+        })
+        .catch((error) => {
+          setMessage({
+            message: error.response.data.error,
+            error: true,
+          });
+        });
     }
   };
 
