@@ -78,6 +78,9 @@ const App = () => {
             message: error.response.data.error,
             error: true,
           });
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
         });
     }
   };
