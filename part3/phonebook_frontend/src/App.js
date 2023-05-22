@@ -16,10 +16,15 @@ const App = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    personService.getAll().then((numbers) => {
-      setPersons(numbers);
-      setPersonsToShow(numbers);
-    });
+    personService
+      .getAll()
+      .then((numbers) => {
+        setPersons(numbers);
+        setPersonsToShow(numbers);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const addPerson = async (e) => {
