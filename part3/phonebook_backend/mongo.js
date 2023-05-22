@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
+let output = null;
 
 if (process.argv.length < 3) {
-  console.log("input > node mongo.js password [name] [number]");
+  console.log("input must be > node mongo.js password [name] [number]");
   process.exit(1);
+}
+
+if (process.argv.length === 3) {
+  output = "GET_ALL";
 }
 
 const password = process.argv[2];
@@ -18,3 +23,24 @@ const personSchema = new mongoose.Schema({
 });
 
 const Person = mongoose.model("Person", personSchema);
+
+function getAll() {
+  let log;
+  Person.find({}).then((result) => {
+    result.forEach((person) => {
+      log += `${person.name} ${person.number}\n`;
+    });
+    mongoose.connection.close();
+
+    console.log(`phonebook:\n${log}`);
+  });
+}
+
+switch (output) {
+  case "GET_ALL":
+    getAll();
+    break;
+
+  default:
+    break;
+}
