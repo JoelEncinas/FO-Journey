@@ -25,10 +25,26 @@ let notes = [
   },
 ];
 
-const url = `mongodb+srv://reactenjoyer3:${proccess.env.password}@cluster0.pug2uxj.mongodb.net/mongotest?retryWrites=true&w=majority`;
+const url = `mongodb+srv://reactenjoyer3:${process.env.password}@cluster0.pug2uxj.mongodb.net/mongotest?retryWrites=true&w=majority`;
+
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+});
+
+const Note = mongoose.model("Note", noteSchema);
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
+});
+
+app.get("/api/notes", (request, response) => {
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
 
 app.get("/api/notes/:id", (request, response) => {
@@ -40,17 +56,6 @@ app.get("/api/notes/:id", (request, response) => {
   } else {
     response.status(404).end();
   }
-});
-
-app.delete("/api/notes/:id", (request, response) => {
-  const id = Number(request.params.id);
-  notes = notes.filter((note) => note.id !== id);
-
-  response.status(204).end();
-});
-
-app.get("/api/notes", (request, response) => {
-  response.json(notes);
 });
 
 const generateId = () => {
@@ -76,6 +81,13 @@ app.post("/api/notes", (request, response) => {
   notes = notes.concat(note);
 
   response.json(note);
+});
+
+app.delete("/api/notes/:id", (request, response) => {
+  const id = Number(request.params.id);
+  notes = notes.filter((note) => note.id !== id);
+
+  response.status(204).end();
 });
 
 const PORT = process.env.PORT || 3001;
