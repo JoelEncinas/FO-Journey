@@ -45,14 +45,13 @@ app.get("/api/persons", (req, res) => {
 });
 
 app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
-
-  if (person) {
-    res.status(200).json(person);
-  } else {
-    res.status(404).end();
-  }
+  Person.findById(req.params.id)
+    .then((person) => {
+      res.json(person);
+    })
+    .catch((err) => {
+      res.status(404).end();
+    });
 });
 
 const getDate = () => {
@@ -94,22 +93,14 @@ app.post("/api/persons", (req, res) => {
     });
   }
 
-  let checkDuplicate = persons.filter((person) => person.name === body.name);
-  if (checkDuplicate.length > 0) {
-    return res.status(400).json({
-      error: "name must be unique",
-    });
-  }
-
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: parseInt(Math.random() * 10000),
-  };
+  });
 
-  persons = persons.concat(person);
-
-  res.status(200).json(person);
+  person.save().then((savedPerson) => {
+    res.json(savedPerson);
+  });
 });
 
 const PORT = 3001 || process.env.PORT;
