@@ -1,31 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const app = express();
 require("dotenv").config();
 
+const Note = require("./models/note");
+
 app.use(cors());
 app.use(express.json());
-
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
-
-const Note = require("./models/note");
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
