@@ -2,8 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
+require("dotenv").config();
 
-app.use(express.static('build'))
+const Person = require("./models/person");
+
+app.use(express.static("build"));
 app.use(cors());
 app.use(express.json());
 
@@ -36,7 +39,9 @@ let persons = [
 ];
 
 app.get("/api/persons", (req, res) => {
-  res.status(200).json(persons);
+  Person.find().then((persons) => {
+    res.status(200).json(persons);
+  });
 });
 
 app.get("/api/persons/:id", (req, res) => {
