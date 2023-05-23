@@ -1,14 +1,4 @@
 const mongoose = require("mongoose");
-let output = null;
-
-if (process.argv.length < 3) {
-  console.log("input must be > node mongo.js password [name] [number]");
-  process.exit(1);
-}
-
-if (process.argv.length === 3) {
-  output = "GET_ALL";
-}
 
 const password = process.argv[2];
 
@@ -26,21 +16,46 @@ const Person = mongoose.model("Person", personSchema);
 
 function getAll() {
   let log = "";
-  Person.find({}).then((result) => {
-    result.forEach((person) => {
-      log += `${person.name} ${person.number}\n`;
-    });
+  Person.find({})
+    .then((result) => {
+      result.forEach((person) => {
+        log += `${person.name} ${person.number}\n`;
+      });
 
-    mongoose.connection.close();
-    console.log(`phonebook:\n${log}`);
-  });
+      mongoose.connection.close();
+      console.log(`phonebook:\n${log}`);
+    })
+    .catch((error) => {
+      console.error("Couldn't load data");
+    });
 }
 
-switch (output) {
-  case "GET_ALL":
-    getAll();
-    break;
+function addPerson(name, number) {
+  const person = new Person({
+    name,
+    number,
+  });
 
-  default:
-    break;
+  person
+    .save()
+    .then((result) => {
+      console.log(`added ${name} number ${number} to phonebook`);
+      mongoose.connection.close();
+    })
+    .catch((error) => {
+      console.error("Failed to add the person");
+    });
+}
+
+function exit() {
+  console.log("input must be > node mongo.js password [name & number]");
+  process.exit(1);
+}
+
+if (process.argv.length === 3) {
+  getAll();
+} else if (process.argv.length === 5) {
+  addPerson(process.argv[3], process.argv[4]);
+} else {
+  exit();
 }
