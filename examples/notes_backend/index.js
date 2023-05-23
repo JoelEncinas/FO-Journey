@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const app = express();
+require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +24,8 @@ let notes = [
     important: true,
   },
 ];
+
+const url = `mongodb+srv://reactenjoyer3:${proccess.env.password}@cluster0.pug2uxj.mongodb.net/mongotest?retryWrites=true&w=majority`;
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
@@ -74,6 +78,6 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
