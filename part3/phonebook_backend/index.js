@@ -77,13 +77,6 @@ app.get("/info", (req, res) => {
     `);
 });
 
-app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  persons = persons.filter((person) => person.id !== id);
-
-  res.status(204).end();
-});
-
 app.post("/api/persons", (req, res) => {
   const body = req.body;
 
@@ -101,6 +94,14 @@ app.post("/api/persons", (req, res) => {
   person.save().then((savedPerson) => {
     res.json(savedPerson);
   });
+});
+
+app.delete("/api/persons/:id", (req, res) => {
+  Person.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      res.status(204).end();
+    })
+    .catch((err) => console.log(err));
 });
 
 const PORT = 3001 || process.env.PORT;
