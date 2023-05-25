@@ -40,7 +40,14 @@ const App = () => {
       ) {
         const changedPerson = { ...person, number: newNumber };
 
-        await personService.updatePerson(person.id, changedPerson);
+        await personService
+          .updatePerson(person.id, changedPerson)
+          .catch((error) => {
+            setMessage({ message: error.response.data.error, error: true });
+          });
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
 
         await personService.getAll().then((numbers) => {
           setPersons(numbers);
@@ -79,6 +86,7 @@ const App = () => {
           setFilter("");
         })
         .catch((error) => {
+          console.log(error);
           setMessage({
             message: error.response.data.error,
             error: true,
