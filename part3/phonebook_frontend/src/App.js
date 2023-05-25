@@ -86,7 +86,6 @@ const App = () => {
           setFilter("");
         })
         .catch((error) => {
-          console.log(error);
           setMessage({
             message: error.response.data.error,
             error: true,

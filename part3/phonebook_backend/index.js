@@ -114,12 +114,28 @@ app.delete("/api/persons/:id", (req, res, next) => {
 });
 
 const errorHandler = (err, req, res, next) => {
-  console.log(err.message);
-
   if (err.name === "CastError") {
     return res.status(400).send({ error: "malformatted id" });
   } else if (err.name === "ValidationError") {
-    return res.status(400).json({ error: err.message });
+    let errorMessage = "";
+
+    if (
+      err.errors &&
+      err.errors.number &&
+      err.errors.number.kind === "minlength"
+    ) {
+      errorMessage = "Number should be at least 8 characters long";
+    }
+
+    if (
+      err.errors &&
+      err.errors.number &&
+      err.errors.number.kind === "user defined"
+    ) {
+      errorMessage = "Invalid phone number";
+    }
+
+    return res.status(400).json({ error: errorMessage });
   }
 
   next(err);
