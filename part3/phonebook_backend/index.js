@@ -15,7 +15,7 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
-app.get("/api/persons", (req, res) => {
+app.get("/api/persons", (req, res, next) => {
   Person.find()
     .then((persons) => {
       res.status(200).json(persons);
@@ -51,7 +51,7 @@ const getDate = () => {
   return currentDate.toLocaleString("en-US", options);
 };
 
-app.get("/info", (req, res) => {
+app.get("/info", (req, res, next) => {
   Person.find()
     .then((persons) => {
       res.status(200).send(`
@@ -107,7 +107,7 @@ app.put("/api/persons/:id", (req, res, next) => {
 
 app.delete("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then((result) => {
+    .then(() => {
       res.status(204).end();
     })
     .catch((error) => next(error));

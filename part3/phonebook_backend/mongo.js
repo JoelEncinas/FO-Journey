@@ -25,7 +25,7 @@ function getAll() {
       mongoose.connection.close();
       console.log(`phonebook:\n${log}`);
     })
-    .catch((error) => {
+    .catch(() => {
       console.error("Couldn't load data");
     });
 }
@@ -38,11 +38,11 @@ function addPerson(name, number) {
 
   person
     .save()
-    .then((result) => {
+    .then(() => {
       console.log(`added ${name} number ${number} to phonebook`);
       mongoose.connection.close();
     })
-    .catch((error) => {
+    .catch(() => {
       console.error("Failed to add the person");
     });
 }
